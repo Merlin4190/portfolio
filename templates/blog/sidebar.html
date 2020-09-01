@@ -1,0 +1,31 @@
+{% block sidebar %}
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+  <div class="card my-4">
+          <h5 class="card-header font-yellow">About Us</h5>
+      <div class="card-body">
+          <p class="card-text ml-3 mr-3 text-justify"> Profolio is an web based portfolio for individuals, companies, organisation and businesses. The world has gone global and a need has arise for individuals and corporations to have online presence if they do not want to be left behind. For that reaseon, Profolio has come to help individuals, corporations, organisations and businesses to achieve that...</p>
+          <a href="https://djangocentral.com/building-a-blog-application-with-django"
+             class="btn btn-color-yellow btn-sm">Know more!</a>
+      </div>
+  </div>
+
+  <div class="card my-4">
+          <h5 class="card-header font-yellow">Categories</h5>
+      <div class="card-body">
+        {% if categories %}
+           <ul>
+           {% for category in categories %}
+            <li><a class="font-lite-black" href="{% url 'category_list' category.slug  %}">{{ category.title }}</a></li>
+            <!-- <li><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></li> -->
+           {% endfor %}
+           </ul>
+       {% else %}
+           <p class="alert alert-info">There are no categories.</p>
+       {% endif %}
+      </div>
+  </div>
+     
+</div>
+
+{% endblock sidebar %}

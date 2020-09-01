@@ -1,0 +1,85 @@
+{% load static %}
+{% static 'images' as baseUrl %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>CV - Portfolio</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	
+	
+	<!-- Font -->
+	
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700%7CAllura" rel="stylesheet">
+	
+	<!-- Stylesheets -->
+
+	<link href="{% static 'common-css/bootstrap.css' %}" rel="stylesheet">
+	
+	<link href="{% static 'common-css/ionicons.css' %}" rel="stylesheet">
+	
+	<link href="{% static 'common-css/fluidbox.min.css' %}" rel="stylesheet">
+	
+	<link href="{% static '02-cv-boxed/css/styles.css' %}" rel="stylesheet">
+	
+	<link href="{% static '02-cv-boxed/css/responsive.css' %}" rel="stylesheet">
+	
+	<link href="{% static 'common-css/ajax-search.css' %}" rel="stylesheet">
+	
+</head>
+
+	{% block content %}
+	<!-- Content Goes here -->
+	{% endblock content %}
+
+	<footer class="footer">
+		<p class="copyright">
+			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ion-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+		</p>
+	</footer>
+	
+	
+	<!-- SCIPTS -->
+
+	<script src="{% static 'common-js/jquery-3.2.1.min.js' %}"></script>
+  
+	<script src="{% static 'common-js/tether.min.js' %}"></script>
+	
+	<script src="{% static 'common-js/bootstrap.js' %}"></script>
+	
+	<script src="{% static 'common-js/isotope.pkgd.min.js' %}"></script>
+	
+	<script src="{% static 'common-js/jquery.waypoints.min.js' %}"></script>
+	
+	<script src="{% static 'common-js/progressbar.min.js' %}"></script>
+	
+	<script src="{% static 'common-js/jquery.fluidbox.min.js' %}"></script>
+	
+	<script src="{% static 'common-js/scripts.js' %}"></script>
+
+	<script src="{% static 'common-js/jquery.formset.js' %}"></script>
+
+	<script src="{% static 'common-js/ajaxSearch.js' %}"></script>
+
+	<script>
+		$(document).ready(function() {
+			setInterval(function() {
+				var docHeight = $(window).height();
+				var footerHeight = $('.footer').height();
+				var footerTop = $('.footer').position().top + footerHeight;
+				var marginTop = (docHeight - footerTop + 10);
+  
+				if (footerTop < docHeight)
+					$('.footer').css('margin-top', marginTop + 'px'); // padding of 30 on footer
+				else
+					$('.footer').css('margin-top', '0px');
+				// console.log("docheight: " + docHeight + "\n" + "footerheight: " + footerHeight + "\n" + "footertop: " + footerTop + "\n" + "new docheight: " + $(window).height() + "\n" + "margintop: " + marginTop);
+			}, 250);
+		});
+	  </script>
+	
+</body>
+</html>

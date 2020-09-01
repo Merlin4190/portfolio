@@ -1,0 +1,68 @@
+{% extends "base_index.html" %} 
+
+{% load static %}
+{% static 'images' as baseUrl %}
+
+{% block content %}	
+<section class="about-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 center-text">
+          <div class="heading ">
+            {% if submitbutton == 'Search' and request.GET.q != '' %}
+            {% if results %}
+            <h3><b>Results for <b>{{ request.GET.q }}</b></h3>
+            <h6 class="font-lite-black"><b>All Created Profiles</b></h6>
+          </div>
+        </div><!-- col-sm-3 -->
+        <div class="col-sm-12 center-text">
+          <div class="card-deck">
+            
+            {% for result in results %}
+            <div class="card">
+                <div class="intro">
+                  <div class="profile-img">
+                    <img class="card-img-top" src="{{ result.avatar.url }}" alt="{{ result.name }}">
+                  </div>
+                </div>              
+                <div class="card-body">
+                    <h2><b>{{ result.name }}</b></h2>
+                    <h4 class="font-yellow">{{ result.position }}</h4>
+                    <p class="card-text">{{ result.bio }}</p>
+                    <ul class="information margin-tb-30">
+                        <li><b>BORN : </b>{{ result.dob }}</li>
+                        <li><b>EMAIL : </b>{{ result.email }}</li>
+                        <li><b>MARITAL STATUS : </b>{{ result.marital_status }}</li>
+                    </ul>
+                    <a href="{% url 'view_profile' result.slug result.pk %}" class="btn btn-info btn-sm"><i class="icon ion-eye"></i> View</a>
+                    <a href="{% url 'edit_profile' slug=result.slug pk=result.pk %}" class="btn btn-primary btn-sm"><i class="icon ion-edit"></i> Edit</a>
+                    <a href="{% url 'delete_profile' slug=result.slug pk=result.pk %}" class="btn btn-danger btn-sm"><i class="icon ion-ios-trash"></i> Delete</a>
+                    <button class="btn btn-success btn-sm show-{{ result.pk }}"><i class="icon ion-share"></i> Share</button>
+                    <div class="contact-form share-{{ result.pk }}" style="display: none;">                    
+                        <div class="col-12 mb-30 d-inline-block">
+                        <input type="text" id="profile_link" value="{% url 'view_profile' result.slug result.pk %}" readonly>
+                        <button class='btn d-inline-block' onclick='copy()'><i class='icon ion-ios-copy' style='color: #008459'></i> Copy</button>
+                        </div>
+                        <ul class="social-icons">
+                        Share on:
+                        <li><a href="{{ result.pininterest_url }}"><i class="ion-social-pinterest"></i></a></li>
+                        <li><a href="#"><i class="ion-social-linkedin"></i></a></li>
+                        <li><a href="#"><i class="ion-social-instagram"></i></a></li>
+                        <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                        <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>            
+            {% endfor %}
+            {% else %}
+            No search results for this query
+            {% endif %}
+            {% endif %}
+            </div>
+        </div><!-- col-sm-12 --> 
+      </div><!-- row -->
+    </div><!-- container -->
+</section><!-- about-section -->
+
+{% endblock %}

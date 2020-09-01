@@ -1,0 +1,252 @@
+{% extends "base.html" %} 
+
+<!-- {% load static %} -->
+<!-- {% static 'images' as baseUrl %} -->
+
+{% block content %}
+<body>
+  {% if user.is_authenticated %}
+  <a class="btn-bg-yellow back" href="{% url 'all_profiles' %}"><b>&larr;</b></a>
+  {% else %}
+  <a class="btn-bg-yellow back" href="{% url 'index' %}"><b>&larr;</b></a>
+  {% endif %}
+
+  {% for contact in contact %}
+  <header>
+    <div class="container">
+      <div class="heading-wrapper">
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="info">
+              <i class="icon ion-ios-location-outline"></i>
+              <div class="right-area">
+                <h5>{{ contact.address|linebreaksbr }}</h5>
+                <h5>{{ contact.city }},{{ contact.state }} {{ contact.zip_code }}</h5>
+              </div><!-- right-area -->
+            </div><!-- info -->
+          </div><!-- col-sm-4 -->
+          
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="info">
+              <i class="icon ion-ios-telephone-outline"></i>
+              <div class="right-area">
+                <h5>{{ contact.phone }}</h5>
+                <h6>MIN - FRI,8AM - 7PM</h6>
+              </div><!-- right-area -->
+            </div><!-- info -->
+          </div><!-- col-sm-4 -->
+          
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="info">
+              <i class="icon ion-ios-chatboxes-outline"></i>
+              <div class="right-area">                
+                <h5>{{ contact.email }}</h5>
+                <h6>REPLY IN 24 HOURS</h6>
+              </div><!-- right-area -->
+            </div><!-- info -->
+          </div><!-- col-sm-4 -->
+        </div><!-- row -->
+      </div><!-- heading-wrapper -->
+      <a class="downlad-btn" href="{{ MEDIA_URL }}/media/{{ profile.upload_cv }}">Download CV</a>
+    </div><!-- container -->
+  </header>
+  {% endfor %}
+  
+  <section class="intro-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1 col-lg-2"></div>
+        <div class="col-md-10 col-lg-8">
+          <div class="intro">
+            <div class="profile-img"><img src="{{ profile.avatar.url }}" alt="{{ profile.name }}"></div>
+            <h2><b>{{ profile.name }}</b></h2>
+            <h4 class="font-yellow">{{ profile.position }}</h4>
+            <ul class="information margin-tb-30">
+              <li><b>BORN : </b>{{ profile.dob }}</li>
+              <li><b>EMAIL : </b>{{ profile.email }}</li>
+              <li><b>MARITAL STATUS : </b>{{ profile.marital_status }}</li>
+            </ul>
+            <ul class="social-icons">
+              <li><a href="{{ profile.pininterest_url }}"><i class="ion-social-pinterest"></i></a></li>
+              <li><a href="{{ profile.linkedin_url }}"><i class="ion-social-linkedin"></i></a></li>
+              <li><a href="{{ profile.instagram_url }}"><i class="ion-social-instagram"></i></a></li>
+              <li><a href="{{ profile.facebook_url }}"><i class="ion-social-facebook"></i></a></li>
+              <li><a href="{{ profile.twitter_url }}"><i class="ion-social-twitter"></i></a></li>
+            </ul>
+          </div><!-- intro -->
+        </div><!-- col-sm-8 -->
+      </div><!-- row -->
+    </div><!-- container -->
+  </section><!-- intro-section -->
+  {% if types  %}
+    <section class="portfolio-section section">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="heading">
+              <h3><b>Portfolio</b></h3>
+              <h6 class="font-lite-black"><b>MY WORK</b></h6>
+            </div>
+          </div><!-- col-sm-4 -->
+          <div class="col-sm-8">          
+            <div class="portfolioFilter clearfix margin-b-80">
+              <a href="#" data-filter="*" class="current"><b>ALL</b></a>
+              {% for type in types %}
+              <a href="#" data-filter=".{{type.portfolio_type}}"><b>{{type.portfolio_type}}</b></a>
+              {% endfor %}
+              <!-- <a href="#" data-filter=".branding"><b>BRANDING</b></a>
+              <a href="#" data-filter=".graphic-design"><b>GRAPHIC DESIGN</b></a> -->
+            </div><!-- portfolioFilter -->          
+          </div><!-- col-sm-8 -->
+        </div><!-- row -->
+      </div><!-- container -->
+      
+      
+      <div class="portfolioContainer">
+        {% for type in types %}
+        <div class="p-item {{type.portfolio_type}}">
+          <a href="{{ type.image.url }}" data-fluidbox>
+            <img src="{{ type.image.url }}" alt=""></a>
+        </div><!-- p-item -->
+        {% endfor %}        
+        
+
+        <!--div class="p-item p-item-2 graphic-design">
+          <a class="img" href="{% static 'images/portfolio-10-300x400.jpg' %}" data-fluidbox>
+            <img src="{% static 'images/portfolio-10-300x400.jpg' %}" alt=""></a>
+          <a class="img" href="{% static 'images/portfolio-11-300x400.jpg' %}" data-fluidbox>
+            <img src="{% static 'images/portfolio-11-300x400.jpg' %}" alt=""></a>
+        </div><-- p-item -->
+      
+      </div><!-- portfolioContainer -->
+
+      
+    </section><!-- portfolio-section -->
+  {% endif %}
+  
+  
+  <section class="about-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="heading">
+            <h3><b>About me</b></h3>
+            <h6 class="font-lite-black"><b>PROFESSIONAL PATH</b></h6>
+          </div>
+        </div><!-- col-sm-4 -->
+        <div class="col-sm-8">
+          <p class="margin-b-50">{{ profile.bio }}</p>
+
+          
+          <div class="row">
+          {% if profile.skill_profile.all  %}
+            {% for skill in profile.skill_profile.all %}
+            <div class="col-sm-6 col-md-6 col-lg-3">
+              <div class="radial-prog-area margin-b-30">
+                <div class="radial-progress" data-prog-percent=".{{ skill.percentage_rank }}">
+                  <div></div>
+                  <h6 class="progress-title">{{ skill.title }}</h6>
+                </div>
+              </div><!-- radial-prog-area-->
+            </div><!-- col-sm-6-->
+            {% endfor %}
+          {% endif %}          
+          </div><!-- row -->
+        </div><!-- col-sm-8 -->
+      </div><!-- row -->
+    </div><!-- container -->
+  </section><!-- about-section -->
+  
+  <section class="experience-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="heading">
+            <h3><b>Work Experience</b></h3>
+            <h6 class="font-lite-black"><b>PREVIOUS JOBS</b></h6>
+          </div>
+        </div><!-- col-sm-4 -->
+        <div class="col-sm-8">
+          {% for experience in profile.work_profile.all %}        
+            <div class="experience margin-b-50">
+              <h4><b>{{experience.job_title}}</b></h4>
+              <h5 class="font-yellow"><b>{{experience.work_place}}</b></h5>
+              <h6 class="margin-t-10">{{experience.start_date}} - 
+                {% if experience.end_date  %}
+
+                  {{experience.end_date}}
+
+                  {% else  %}
+                    PRESENT
+                {% endif %}
+
+              </h6>
+              <p class="font-semi-white margin-tb-30">{{experience.description}} </p>
+              <!-- <ul class="list margin-b-30">
+                <li>Duis non volutpat arcu, eu mollis tellus.</li>
+                <li>Quis consequat nulla effi citur at.</li>
+                <li>Sed finibus aliquam neque sit.</li>
+              </ul> -->
+            </div><!-- experience -->
+          {% endfor %}
+          
+        </div><!-- col-sm-8 -->
+      </div><!-- row -->
+    </div><!-- container -->
+    
+  </section><!-- experience-section -->
+  
+  <section class="education-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="heading">
+            <h3><b>Education</b></h3>
+            <h6 class="font-lite-black"><b>ACADEMIC CAREER</b></h6>
+          </div>
+        </div><!-- col-sm-4 -->
+        <div class="col-sm-8">
+          <div class="education-wrapper">
+            {% for edu in profile.education_profile.all %}
+              <div class="education margin-b-50">
+                <h4><b>{{edu.qualification}}</b></h4>
+                <h5 class="font-yellow"><b>{{edu.school}}</b></h5>
+                <h6 class="font-lite-black margin-t-10">{{edu.start_date}} - 
+                  {% if edu.end_date  %}
+
+                    {{edu.end_date}}
+
+                    {% else  %}
+                      ON-GOING
+                  {% endif %}
+
+                </h6>
+                <!-- <h6 class="font-lite-black margin-t-10">GRADUATED IN MAY 2010(2 YEARS)</h6> -->
+                <p class="margin-tb-30">{{edu.description}} </p>
+              </div><!-- education -->
+            {% endfor %}
+            
+          </div><!-- education-wrapper -->
+        </div><!-- col-sm-8 -->
+      </div><!-- row -->
+    </div><!-- container -->
+    
+  </section><!-- about-section -->
+  {% if profile.achievement_profile.all  %}
+    <section class="counter-section" id="counter">
+      <div class="container">
+        <div class="row">
+          {% for mark in profile.achievement_profile.all %}
+          <div class="col-sm-6 col-md-6 col-lg-3">
+            <div class="counter margin-b-30">
+              <h1 class="title"><b><span class="counter-value" data-duration="400" data-count="{{mark.number}}">{{mark.number}}</span></b></h1>
+              <h5 class="desc"><b>{{mark.title}}</b></h5>
+            </div><!-- counter -->
+          </div><!-- col-md-3-->
+          {% endfor %}
+          
+        </div><!-- row-->
+      </div><!-- container-->
+      </section><!-- counter-section-->
+  {% endif %}
+  {% endblock %}

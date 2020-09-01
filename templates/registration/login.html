@@ -1,0 +1,60 @@
+{% extends "base_index.html" %} 
+{% load crispy_forms_tags %} 
+
+{% load static %}
+{% static 'images' as baseUrl %}
+
+{% block content %}
+<body class="intro-section">
+  
+  <section>
+    <div class="container">
+    
+      <div class="intro">
+        <div class="row pt-5">
+          <div class="col-sm-5 col-md-5 col-lg-5 mx-auto">
+            <div class="right-area"><!--login form-->
+              <h4 class="center-text pt-5 pb-3">Login</h4>
+
+              {% for message in messages %}
+                {% if 'signin' in message.tags %}
+                  <div class="alert alert-info">{{message}}</div>
+                {% endif %}
+              {% endfor %}
+
+              <form action="{% url 'signin' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                {{ login_form|crispy }}              
+                <span hidden>
+                  <input type="checkbox" class="checkbox"> 
+                  Keep me signed in
+                </span>
+                <button type="submit" class="btn btn-color-yellow">Login</button>
+              </form>
+            </div><!--/login form-->
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2 mx-auto pt-5">
+            <h2 class="or">OR</h2>
+          </div>
+          <div class="col-sm-5 col-md-5 col-lg-5 mx-auto">
+            <div class="right-area"><!--sign up form-->
+              <h4 class="center-text pt-5 pb-3">Signup!</h4>
+
+              {% for message in messages %}
+                {% if 'signup' in message.tags %}
+                  <div class="alert alert-info">{{message}}</div>
+                {% endif %}
+              {% endfor %}
+
+              <form action="{% url 'signup' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                {{ register_form|crispy }}
+                <button type="submit" class="btn btn-color-yellow">Signup</button>
+              </form>
+            </div><!--/sign up form-->
+          </div>
+        </div><!-- row -->
+      </div><!-- heading-wrapper -->
+    </div><!-- container -->
+  </section><!-- intro-section -->  
+  {% endblock %}

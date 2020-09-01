@@ -1,0 +1,46 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}  
+{% block content %}
+
+<section class="intro-section accordian-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-8 mx-auto">
+          <div class="panel margin-b-30">
+            <form action="" method="post" autocomplete="off" class="justify-content-center" enctype="multipart/form-data">
+              {% csrf_token %}
+              {# {% for message in messages %} #}
+                {# {% if 'login' in message.tags %} #}
+                  {# <div class="alert alert-info">{{message}}</div> #}
+                {# {% endif %} #}
+              {# {% endfor %} #}
+
+              <div class="panel-area margin-b-30"><!--panel area-->
+                <h5 class="panel-title active"><b>New Post</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+                  <div class="panel-desc active">
+                    {{ post_form|crispy }}
+                    {{ post_form.media }}
+                    {{ post_img_form|crispy }}
+                  </div>
+              </div><!--/panel area-->
+
+              <div class="row">
+                <div class="col-md-6 mx-auto">
+                  <button type="submit" class="btn btn-color-yellow btn-block">Save</button>       
+                </div>
+                <!-- <div class="col-md-6">
+                   <button type="submit" class="btn btn-bg-yellow btn-block">Next</button>
+                </div> -->
+              </div>
+              
+            </form>
+
+          </div>          
+        </div><!-- row -->
+        {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
+      </div><!-- heading-wrapper -->
+    </div><!-- container -->
+  </section><!-- intro-section -->
+
+{%endblock%}

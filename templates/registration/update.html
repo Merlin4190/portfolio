@@ -1,0 +1,37 @@
+{% extends "base_index.html" %} 
+{% load crispy_forms_tags %} 
+
+{% load static %}
+{% static 'images' as baseUrl %}
+
+{% block content %}
+<body class="intro-section">
+  
+  <section>
+    <div class="container">
+    
+      <div class="intro">
+        <div class="row">
+          <div class="col-md-12 col-lg-6 mx-auto pt-5">
+            <div class="right-area"><!--login form-->
+                <h2 class="center-text pt-5">Update your account</h2>              
+                <div class="panel margin-b-30 pt-5">
+                    {% for message in messages %}
+                        {% if 'login' in message.tags %}
+                        <div class="alert alert-info">{{message}}</div>
+                        {% endif %}
+                    {% endfor %}
+                    <form method="post" autocomplete="off">
+                        {% csrf_token %}
+                        {{ account_form|crispy }}
+                        <!-- {{ form|crispy }} -->
+                        <button type="submit" class="btn btn-color-yellow">Update</button>
+                    </form>
+                </div>
+            </div><!--/login form-->
+          </div>
+        </div><!-- row -->
+      </div><!-- heading-wrapper -->
+    </div><!-- container -->
+  </section><!-- intro-section -->  
+  {% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'blog/base.html' %} 
+{% load crispy_forms_tags %}  
+{% block content %}
+
+{# {% load static %} #}
+{# {% static 'images' as baseUrl %} #}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <h1 class="font-black center-text">{% block title %} {{ post.title }} {% endblock title %}</h1>
+        <p class="center-text font-yellow" hidden>
+          {{ post.author }} | 
+          {% if post.status %}
+            {{ post.created_on }}
+          {% else %}
+              <a class="btn btn-color-yellow" href="{% url 'post_publish' slug=post.slug %}">Publish</a>
+          {% endif %}
+        </p>
+        <h5 class="font-yellow center-text">
+          <i class="icon ion-person"></i> {{ post.author }} | 
+          <i class="icon ion-clock"></i> {{ post.created_on}} |          
+          {% for cat in post.categories.all %}
+          <i class="icon ion-clipboard"></i> {{ cat.title}}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+
+        </h5>
+        {% for img in post.postImages.all %}
+            <img src="{{ img.image.url }}" style="max-width: 100%"><br>
+        {% endfor %}
+        <p class="card-text">{{ post.content|safe|linebreaksbr }}</p>
+      </div>
+      {% if user.is_authenticated %}
+        <a class="btn btn-color-yellow" href="{% url 'post_publish' slug=post.slug %}">
+          <span class="icon ion-android-send"></span> Publish
+        </a>
+        <a class="btn btn-color-yellow" href="{% url 'post_edit' slug=post.slug %}">
+          <span class="icon ion-edit"></span> Edit
+        </a>         
+        <a class="btn btn-color-yellow" href="{% url 'post_delete' slug=post.slug %}">
+          <span class="icon ion-ios-trash"></span> Delete
+        </a>
+      {% endif %}
+    </div>
+    {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
+  </div>
+  <div class="col-md-8 card mb-4  mt-3 ">
+    <div class="card-body">
+      <!-- comments -->
+      <h2 class="font-black">{{ comments.count }} comments</h2>
+
+      {% for comment in comments.all %}
+        {% if user.is_authenticated or comment.active %}
+          <div class="comments" style="padding: 10px;">
+            <p class="font-weight-bold">
+              {{ comment.name }}
+              <span class=" text-muted font-weight-normal">
+                {{ comment.created_on }}
+              </span>
+            </p>
+            <p>{{ comment.body | linebreaks }}</p>
+            {% if not comment.active %}
+              <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span>X</a>
+              <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span>\/</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% empty %}
+        <p>No comments here yet :(</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-md-8 card mb-4  mt-3 ">
+    <div class="card-body">
+      {% if new_comment %}
+      <div class="alert alert-success mt-3" role="alert">
+        Your comment is awaiting moderation
+      </div>
+      {% else %}
+      <h3 class="font-yellow">Leave a comment</h3>
+      <form method="post" style="margin-top: 1.3em;" class="font-black">
+        {{ comment_form|crispy }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-color-yellow btn-block">Submit</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock content %}

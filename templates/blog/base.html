@@ -1,0 +1,251 @@
+{% load static %}
+{% static 'images' as baseUrl %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <title>CV - Portfolio</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  
+  
+  <!-- Font -->
+  
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700%7CAllura" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  
+  <link href="{% static 'common-css/bootstrap.css' %}" rel="stylesheet">
+  
+  <link href="{% static 'common-css/ionicons.css' %}" rel="stylesheet">
+  
+  <link href="{% static 'common-css/fluidbox.min.css' %}" rel="stylesheet">
+  
+  <link href="{% static 'common-css/style.css' %}" rel="stylesheet">
+  
+  <link href="{% static '03-cv-business/css/responsive.css' %}" rel="stylesheet">
+
+  <link href="{% static 'common-css/ajax-search.css' %}" rel="stylesheet">
+
+  <!-- <style type="text/css">
+    li{color: #FFAD01;}
+  </style> -->
+  
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-toggleable-lg navbar-light bg-yellow">
+    <a class="navbar-brand" href="/">PROFOLIO </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="ml-auto topnav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'blog' %}">Blog <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Resources
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Carfax</a>
+                    <a class="dropdown-item" href="#">Carproof</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Omnivic</a>
+                </div>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+            </li>
+            {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white" type="button" href="{% url 'post_new' %}"><span class="icon ion-plus"></span> New</a>                  
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-info text-white" type="button" href="{% url 'post_draft_list' %}"><span class="icon ion-edit"></span> Draft</a>                  
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger text-white" type="button" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white" type="button" href="#" data-toggle="modal" data-target="#myLogin">Sign In</a>                  
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger text-white" type="button" href="#" data-toggle="modal" data-target="#myRegister">Register</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- The Login Modal -->
+    <div class="modal" id="myLogin">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title font-yellow">Login to your account</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <form action="{% url 'login' %}" method="post" autocomplete="off">
+              {% csrf_token %}
+              <!-- Modal body -->
+              <div class="modal-body">
+                  
+                <label class="sr-only" for="usrname">Username</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="icon ion-ios-person"></i></span>
+                    </div>
+                    <input name="uname" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <label class="sr-only" for="Password">Password</label>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2"><i class="icon ion-ios-locked"></i></span>
+                    </div>
+                    <input name="password" id="Password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+                </div>  
+                <a class="font-yellow pl-3" href="{% url 'password_reset' %}">Forgot Password?</a>                      
+              </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" >Sign In</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
+
+    <!-- The Register Modal -->
+    <div class="modal" id="myRegister">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title font-yellow">Create Account</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <form action="{% url 'register' %}" method="post" autocomplete="off">
+              {% csrf_token %}
+              <!-- Modal body -->
+              <div class="modal-body">
+                  
+                <label class="sr-only" for="username">Username</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="icon ion-ios-person"></i></span>
+                    </div>
+                    <input name="uname" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <label class="sr-only" for="usrname">Email</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="icon ion-ios-email"></i></span>
+                    </div>
+                    <input name="email" type="email" class="form-control" placeholder="Email Address" aria-label="Email" aria-describedby="basic-addon3">
+                </div>
+                <label class="sr-only" for="Password">Password</label>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2"><i class="icon ion-ios-locked"></i></span>
+                    </div>
+                    <input name="password" id="Password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+                </div>                      
+              </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" >Sign Up</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
+
+    
+  </nav>
+  {% for message in messages %}
+    {% if 'login' in message.tags %}
+      <div class="alert alert-info">{{message}}</div>
+    {% endif %}
+  {% endfor %}
+
+  {% block content %}
+  <!-- Content Goes here -->
+  {% endblock content %}
+  <footer class="footer">
+    <p class="copyright">
+      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ion-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </p>    
+  </footer>  
+  
+  <!-- SCRIPTS -->
+  
+  <script src="{% static 'common-js/jquery-3.2.1.min.js' %}"></script>
+  
+  <script src="{% static 'common-js/tether.min.js' %}"></script>
+  
+  <script src="{% static 'common-js/bootstrap.js' %}"></script>
+  
+  <script src="{% static 'common-js/isotope.pkgd.min.js' %}"></script>
+  
+  <script src="{% static 'common-js/jquery.waypoints.min.js' %}"></script>
+  
+  <script src="{% static 'common-js/progressbar.min.js' %}"></script>
+  
+  <script src="{% static 'common-js/jquery.fluidbox.min.js' %}"></script>
+  
+  <script src="{% static 'common-js/scripts.js' %}"></script>
+
+  <script src="{% static 'common-js/jquery.formset.js' %}"></script>
+
+  <script src="{% static 'common-js/ajaxSearch.js' %}"></script>
+
+  {% block custom_js %}{% endblock %}  
+  <script>
+    {% for profile in profiles %}
+  //   share button
+  $(document).ready(function(){
+    $(".show-{{ profile.pk }}").click(function(e){
+      $(".share-{{ profile.pk }}").fadeToggle(1000);
+      return e.stopPropagation();
+
+    });
+  });
+  {% endfor %}
+  // copy button
+  function copy() {
+    var copyText = document.getElementById("profile_link");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+  }
+  $(document).ready(function() {
+      setInterval(function() {
+          var docHeight = $(window).height();
+          var footerHeight = $('.footer').height();
+          var footerTop = $('.footer').position().top + footerHeight;
+          var marginTop = (docHeight - footerTop + 10);
+
+          if (footerTop < docHeight)
+              $('.footer').css('margin-top', marginTop + 'px'); // padding of 30 on footer
+          else
+              $('.footer').css('margin-top', '0px');
+          // console.log("docheight: " + docHeight + "\n" + "footerheight: " + footerHeight + "\n" + "footertop: " + footerTop + "\n" + "new docheight: " + $(window).height() + "\n" + "margintop: " + marginTop);
+      }, 250);
+  });
+  </script>
+</body>
+</html>

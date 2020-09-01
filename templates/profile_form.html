@@ -1,0 +1,147 @@
+{% extends "base_index.html" %}
+{% load crispy_forms_tags %} 
+
+{% load static %}
+{% static 'images' as baseUrl %}
+
+{% block content %}
+<body>
+  
+  <section class="intro-section accordian-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-lg-8 mx-auto">
+          <div class="panel margin-b-30">
+            <form action="" method="post" autocomplete="off" class="justify-content-center" enctype="multipart/form-data">
+              {% csrf_token %}
+              {# {% for message in messages %} #}
+                {# {% if 'login' in message.tags %} #}
+                  {# <div class="alert alert-info">{{message}}</div> #}
+                {# {% endif %} #}
+              {# {% endfor %} #}
+
+              <div class="panel-area margin-b-30"><!--panel area-->
+                <h5 class="panel-title active"><b>Your Profile</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+                  <div class="panel-desc active">{{ profile_form.media }}{{ profile_form|crispy }}</div>
+              </div><!--/panel area-->
+
+              <div class="panel-area margin-b-30">
+                <h5 class="panel-title"><b>Your Contact</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+                  <div class="panel-desc active">
+                    {{ contact_form.management_form }}
+                    {{ contact_form|crispy }}
+                  </div>
+              </div><!-- panel-area -->
+
+              <div class="panel-area margin-b-30">
+                <h5 class="panel-title"><b>Your Skills</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+
+                  <div class="panel-desc active">
+                    {{ skill_forms.management_form }}
+                    {% for field in skill_forms %}
+                    <div class="form-row4">
+                      {{ field|crispy }}
+                      <div class="input-group-append">
+                          <button class="btn btn-success btn-block add-form-row4"><i class="icon plus ion-plus"></i> Add More</button>
+                      </div>
+                    </div>
+                    
+                    {% endfor %}
+                  </div>
+              </div><!-- panel-area -->
+
+              <div class="panel-area margin-b-30">
+                <h5 class="panel-title"><b>Your Portfolio</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+                  
+                  <div class="panel-desc active">
+                    {{ portfolio_forms.management_form }}
+                    {% for field in portfolio_forms %}
+                    <div class="form-row" id="form-row">
+                      {{ field|crispy }}
+                      <div class="input-group-append">
+                          <button class="btn btn-success btn-block add-form-row"><i class="icon plus ion-plus"></i> Add More</button>
+                      </div>
+                    </div>
+                    
+                    {% endfor %}
+                  </div>                 
+                  
+              </div><!-- panel-area -->
+
+              <div class="panel-area margin-b-30">
+                <h5 class="panel-title"><b>Your Work Experience</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+                  
+                  <div class="panel-desc active">
+                    {{ experience_forms.management_form }}
+                    {% for field in experience_forms %}
+                    <div class="form-row1">
+                      {{ field|crispy }}
+                      <div class="input-group-append">
+                          <button class="btn btn-success btn-block add-form-row1"><i class="icon plus ion-plus"></i> Add More</button>
+                      </div>
+                    </div>
+                    
+                    {% endfor %}
+                  </div>                 
+                  
+              </div><!-- panel-area -->
+
+              <div class="panel-area margin-b-30">
+                <h5 class="panel-title"><b>Your Educational Background</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+                  
+                  <div class="panel-desc active">
+                    {{ education_forms.management_form }}
+                    {% for field in education_forms %}
+                    <div class="form-row2">
+                      {{ field|crispy }}
+                      <div class="input-group-append">
+                          <button class="btn btn-success btn-block add-form-row2"><i class="icon plus ion-plus"></i> Add More</button>
+                      </div>
+                    </div>
+                    
+                    {% endfor %}
+                  </div>                 
+                  
+              </div><!-- panel-area -->
+
+              <div class="panel-area margin-b-30">
+                <h5 class="panel-title"><b>Your Achievements</b>
+                  <i class="icon minus ion-minus"></i><i class="icon plus ion-plus"></i></h5>
+                  
+                  <div class="panel-desc active">
+                    {{ achievement_forms.management_form }}
+                    {% for field in achievement_forms %}
+                    <div class="form-row3">
+                      {{ field|crispy }}
+                      <div class="input-group-append">
+                          <button class="btn btn-success btn-block add-form-row3"><i class="icon plus ion-plus"></i> Add More</button>
+                      </div>
+                    </div>
+                    
+                    {% endfor %}
+                  </div>                 
+                  
+              </div><!-- panel-area -->
+
+              <div class="row">
+                <div class="col-md-6 mx-auto">
+                  <button type="submit" class="btn btn-color-yellow btn-block">Save</button>       
+                </div>
+                <!-- <div class="col-md-6">
+                   <button type="submit" class="btn btn-bg-yellow btn-block">Next</button>
+                </div> -->
+              </div>
+            </form>
+
+          </div>          
+        </div><!-- row -->
+      </div><!-- heading-wrapper -->
+    </div><!-- container -->
+  </section><!-- intro-section -->  
+  {% endblock %}

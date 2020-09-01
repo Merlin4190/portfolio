@@ -1,0 +1,53 @@
+{% extends "blog/base.html" %} 
+{% block content %}
+
+<!-- <header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to my awesome Blog </h3>
+                    <p class="text-light">We Love Django As much as you do..! &nbsp
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header> -->
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            {% if posts %}
+            {% for post in posts %}
+            {% if post.status %}            
+            <div class="card mb-4">
+                <div class="card-body">                    
+                    {% for img in post.postImages.all %}
+                        <img src="{{ img.image.url }}" style="max-width: 100%"><br>
+                    {% endfor %}
+                    <h2 class="card-title font-black center-text">{{ post.title }}</h2>
+                    <h5 class="font-yellow center-text"><i class="icon ion-person"></i> {{ post.author }} | 
+                        <i class="icon ion-clock"></i> {{ post.created_on}} |
+                        {% for cat in post.categories.all %}
+                        <i class="icon ion-clipboard"></i> {{ cat.title}}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+
+                    </h5>
+                    <p class="card-text margin-tb-30">{{post.content|safe|slice:":200" }}</p>
+                    
+                </div>
+                <a href="{% url 'post_detail' post.slug  %}" class="btn btn-color-yellow">Read More &rarr;</a>
+                <a href="{% url 'post_detail' slug=post.slug %}" class="float-right center-text font-lite-black h5">Comments: {{ post.approved_comments.count }}</a>
+            </div> 
+            {% endif %}           
+            {% endfor %}
+            {% else %}
+               <p class="alert alert-info">There are no posts.</p>
+            {% endif %}
+        </div>
+        {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div>
+{% endblock %}

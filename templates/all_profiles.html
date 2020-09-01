@@ -1,0 +1,147 @@
+{% extends "base_index.html" %} 
+
+{% load static %}
+{% static 'images' as baseUrl %}
+
+{% block content %}
+<body>
+  
+  <section class="intro-section">
+    <div class="container">
+
+      <div class="heading-wrapper" hidden>
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="info">
+              <i class="icon ion-ios-location-outline"></i>
+              <div class="right-area">
+                <h5>3008 Sarah Drive</h5>
+                <h5>Franklin,LA 70538</h5>
+              </div><!-- right-area -->
+            </div><!-- info -->
+          </div><!-- col-sm-4 -->
+          
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="info">
+              <i class="icon ion-ios-telephone-outline"></i>
+              <div class="right-area">
+                <h5>337-4139538</h5>
+                <h6>MIN - FRI,8AM - 7PM</h6>
+              </div><!-- right-area -->
+            </div><!-- info -->
+          </div><!-- col-sm-4 -->
+          
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="info">
+              <i class="icon ion-ios-chatboxes-outline"></i>
+              <div class="right-area">
+                <h5>contact@colorlib.com</h5>
+                <h6>REPLY IN 24 HOURS</h6>
+              </div><!-- right-area -->
+            </div><!-- info -->
+          </div><!-- col-sm-4 -->
+        </div><!-- row -->
+      </div><!-- heading-wrapper -->
+      
+    
+      <div class="intro">
+        <div class="row">
+          
+          <div class="col-sm-6 col-md-6 col-lg-6">   
+            <h2><b>ONLINE PORTFOLIO</b></h2>
+            <h4 class="font-yellow">Key Portfolio Manager</h4>
+            <ul class="information margin-tb-30">
+              <li><i class="ion-checkmark font-yellow"></i> Sell Yourself</li>
+              <li><i class="ion-checkmark font-yellow"></i>  Create your Online Curriculum Vitae</li>
+              <li><i class="ion-checkmark font-yellow"></i> Build your Porfolio</li>
+              {% if user.is_authenticated %}
+                <p class="font-yellow">Hello <a class="" href="{% url 'all_profiles' %}"><u>{{ user.username }}</u></a> <small>(Click get started to build your portfolio right away. Goodluck!!!)</small></p>
+              {% else %}
+              <!-- <a class="font-yellow" href="{% url 'login' %}">&rarr; Login</a> |
+              <a class="font-yellow" href="{% url 'register' %}">&rarr; Sign-up</a> -->
+              {% endif %}
+            </ul>
+          </div><!-- col-sm-6 -->
+
+          {% if user.is_authenticated %}
+          <div class="col-sm-6 col-md-6 col-lg-6">            
+            <div class="pt-5 pl-5 d-inline-block">          	
+              <a class="btn btn-lg btn-bg-purple btn-block" href="{% url 'profile_form' %}"><span class="icon ion-plus"></span> Create Profile</a>
+              <!-- <a class="btn btn-lg btn-color-yellow" href="{% url 'all_profiles' %}"><i class="icon ion-ios-person"></i> My Profiles</a>          -->
+            </div><!-- col-lg-6 -->
+          </div>
+          {% else %}
+          <div class="col-sm-6 col-md-6 col-lg-6">   
+            <h2><b>...</b></h2>
+            <h3 class="font-yellow">Key Steps</h3>
+            <ul class="information margin-tb-10">
+              <li><i class="font-yellow">&rarr;</i> Register as a User</li>
+              <li><i class="font-yellow">&rarr;</i>  Create range of profiles from personal to business or corporate</li>
+              <li><i class="font-yellow">&rarr;</i> Share links online or social medias</li>
+            </ul>
+          </div><!-- col-sm-6 -->
+          {% endif %}
+      
+        </div><!-- row -->
+      
+      </div><!-- intro -->
+    </div><!-- container -->
+  </section><!-- intro-section -->
+  
+  
+  <section class="about-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 center-text">
+          <div class="heading ">
+            <h3 class="font-black"><b>Profiles</b></h3>
+            <h6 class="font-lite-black"><b>All Created Profiles</b></h6>
+          </div>
+        </div><!-- col-sm-3 -->
+        <!-- <div style="margin:30px;"></div> -->
+        <div class="col-sm-12 center-text pt-5">
+          <div class="card-group pt-5">
+            {% for profile in profiles %}
+            <div class="card">
+              <div class="intro">
+                <div class="profile-img">
+                  <img class="card-img-top" src="{{ profile.avatar.url }}" alt="{{ profile.name }}">
+                </div>
+              </div>              
+                <div class="card-body pb-5">
+                  <h2 class="font-black"><b>{{ profile.name }}</b></h2>
+                  <h4 class="font-yellow">{{ profile.position }}</h4>
+                  <p class="card-text">{{ profile.bio }}</p>
+                  <ul class="information margin-tb-30 font-black">
+                    <li><b>BORN : </b>{{ profile.dob }}</li>
+                    <li><b>EMAIL : </b>{{ profile.email }}</li>
+                    <li><b>MARITAL STATUS : </b>{{ profile.marital_status }}</li>
+                  </ul>
+                  <a href="{% url 'view_profile' profile.slug profile.pk %}" class="btn btn-info btn-sm"><i class="icon ion-eye"></i> View</a>
+                  <a href="{% url 'edit_profile' slug=profile.slug pk=profile.pk %}" class="btn btn-primary btn-sm"><i class="icon ion-edit"></i> Edit</a>
+                  <a href="{% url 'delete_profile' slug=profile.slug pk=profile.pk %}" class="btn btn-danger btn-sm"><i class="icon ion-ios-trash"></i> Delete</a>
+                  <button class="btn btn-success btn-sm show-{{ profile.pk }}"><i class="icon ion-share"></i> Share</button>
+                  <div class="contact-form share-{{ profile.pk }}" style="display: none;">                    
+                    <div class="col-12 mb-30 d-inline-block">
+                      <input type="text" id="profile_link" class="form-control" value="{% url 'view_profile' profile.slug profile.pk %}" readonly>
+                      <button class='btn d-inline-block btn-lg' onclick='copy()'><i class='icon ion-ios-copy font-yellow'></i> Copy</button>
+                    </div>
+                    <ul class="social-icons font-lite-black h5">
+                      Share on:
+                      <li><a href="{{ profile.pininterest_url }}"><i class="ion-social-pinterest"></i></a></li>
+                      <li><a href="{{ profile.linkedin_url }}"><i class="ion-social-linkedin"></i></a></li>
+                      <li><a href="{{ profile.instagram_url }}"><i class="ion-social-instagram"></i></a></li>
+                      <li><a href="{{ profile.facebook_url }}"><i class="ion-social-facebook"></i></a></li>
+                      <li><a href="{{ profile.twitter_url }}"><i class="ion-social-twitter"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+            
+            {% endfor %}
+          </div>
+        </div><!-- col-sm-12 --> 
+      </div><!-- row -->
+    </div><!-- container -->
+  </section><!-- about-section -->
+  {% endblock %}
